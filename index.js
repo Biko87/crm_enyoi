@@ -16,31 +16,11 @@ mongoose.connect(process.env.DB_URL, {
 .then(()=> console.log('conectado a BD de mongodb')) 
 .catch(e => console.log('error de conexión', e))
 
-
 //crear servidor
 const app = express();
 
-
-// Habilitar Body-Parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-
-// Definir un dominio(s) para recibir las peticiones
-const whitelist = [process.env.FRONTEND_URL];
-const corsOptions = {
-    origin: (origin, callback) => {
-        // Revisa si la petición viene de un servidor que está en la lista blanca = whitelist
-        const existe = whitelist.some( dominio => dominio === origin );
-        if (existe) {
-            callback(null, true);
-        } else {
-            callback(new Error('No permitido por CORS'));
-        }
-    }
-}
-
 // Habilitar Cors
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Rutas de la App
 app.use('/', routes()); 
